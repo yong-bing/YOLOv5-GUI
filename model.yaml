@@ -1,7 +1,6 @@
-model_path: best.torchscript
+model_path: weight/best.pt
 iou_thres: 0.65
 conf_thres: 0.5
 device: 0 # (0 for cuda:0) or (-1 for cpu)
 names: ['apple', 'banana', 'cherry', 'coconut', 'cucumber', 'grape', 'kiwi', 'melon', 'orange', 'peach', 'pear', 'pineapple', 'pomegranate', 'strawberry', 'watermelon']
 imgsz: [640, 640]
-model_type: yolov5

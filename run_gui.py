@@ -4,9 +4,9 @@ import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from Ui_untitled import Ui_Dialog
+from yolov5_gui import Ui_Dialog
 from PIL import Image
-from yolo import yolov5, yolov7
+from yolo import yolov5
 
 def resize_img(img, img_size=900, value=[255, 255, 255], inter=cv2.INTER_AREA):
     old_shape = img.shape[:2]
@@ -84,9 +84,6 @@ class MyForm(QDialog):
         except:
             return '\n' + ', '.join([f'{self.model.names[i]}:{np.sum(result[:, -1] == i):.0f}' for i in range(len(self.model.names))])
         
-    def comboBox_vis(self):
-        self.ui.textBrowser.append(f'track state change to {self.ui.comboBox.currentText()}')
-        # self.track_init()
     
     def select_model(self):
         fileName, fileType = QFileDialog.getOpenFileName(self, '选取文件', '.', 'YAML (*.yaml)')
@@ -97,10 +94,7 @@ class MyForm(QDialog):
                 cfg = yaml.load(f, Loader=yaml.SafeLoader)
                 print(cfg)
             # init yolo model
-            if cfg['model_type'] == 'yolov5':
-                self.model = yolov5(**cfg)
-            elif cfg['model_type'] == 'yolov7':
-                self.model = yolov7(**cfg)
+            self.model = yolov5(**cfg)
             self.ui.textBrowser.append(f'load yaml success.')
         else:
             self.ui.textBrowser.append(f'load yaml failure.')
@@ -231,8 +225,6 @@ class MyForm(QDialog):
             torch.cuda.synchronize()
             since = time.time()
             image_det, result = self.model(image.copy())
-            # if self.ui.comboBox.currentText() != 'NoTrack':
-            #     image_det = self.model.track_processing(image.copy(), result)
             torch.cuda.synchronize()
             end = time.time()
             self.out.write(image_det)
