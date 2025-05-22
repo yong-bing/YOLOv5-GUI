@@ -7,7 +7,7 @@
 克隆本项目到本地：
 
 ```bash
-git clone https://github.com/aifyb/yolov5_gui.git
+git clone https://github.com/yong-bing/YOLOv5-GUI.git
 ```
 
 安装依赖：
